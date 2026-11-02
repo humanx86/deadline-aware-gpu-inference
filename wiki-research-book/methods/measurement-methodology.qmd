@@ -1,0 +1,92 @@
+# Measurement Methodology {#sec-methods}
+
+::: {.callout-note title="Measurement methodology · Planned"}
+This chapter defines the intended measurement methodology. Implementation, clock verification, and metric validation remain pending.
+:::
+
+
+## Completion and clocks
+
+CUDA work can be asynchronous with respect to the host, this means that returning from a submission call does not by itself establish completed GPU work. CUDA streams, events, and synchronization provide mechanisms for expressing and observing completion dependencies [@pytorch-cuda; @nvidia-cuda-async].
+
+For same-host application events, we use a verified common monotonic clock domain, and keep device-event intervals separate from host timestamps.
+
+| Symbol | Event | Required meaning |
+|---|---|---|
+| $c_i$ | Observation capture | Original input time and any explicit mapping into replay time |
+| $r_i$ | Scheduled release | The planned arrival, preserved even if the producer fails to release the item |
+| $a_i$ | Actual release | When the producer actually makes the item available |
+| $g_i$ | Consumer-ready output | Host-observed readiness after required GPU work, copies, and postprocessing are complete |
+| $u_i$ | Actual consumer use | Record only if observed |
+| $d_i$ | Declared deadline | For a release-relative contract, $d_i=r_i+D$ |
+
+
+## Preserve all offered work
+
+We schedule workload arrivals independently of inference completion, following the distinction between open and closed workload models [@schroeder2006open].
+
+We preserve scheduled identities and account for dropped, failed, unreleased, and unfinished work. Completed-only latency distributions are reported alongside all-outcome counts to avoid misleading performance conclusions [@tene2013latency].
+
+Let $S$ be the set of scheduled fast items in the declared arrival cohort. The fast temporal miss fraction is:
+
+$$
+\text{Fast temporal miss fraction} =
+\frac{
+  \#\{i \in S : g_i \text{ is absent or } g_i > d_i\}
+}{
+  |S|
+}
+$$
+
+Equality with the deadline counts as on time. A completed but task-incorrect output can satisfy the temporal criterion while failing the separate correctness criterion.
+
+For this pilot, warm-up work will finish before the measurement window $[t_0,t_1)$, and its IDs will be excluded. The measured cohorts contain all frame/request IDs scheduled within that window, including items never actually released. After $t_1$, we stop offering new work but continue recording through a predeclared drain cutoff covering every cohort deadline. An unfinished item remains pending until its deadline has passed. We calculate the final miss fraction once all temporal outcomes are known; an empty cohort is reported as N/A.
+
+## Ready latency, age, and service-valid output
+
+**Ready latency** is $g_i-r_i$: time from scheduled release to consumer-ready output. It is analogous to response time in real-time systems, but includes producer-release lag because $r_i$ is the planned rather than the actual release [@liu2000realtime].
+
+**Ready age** is $g_i-c_i$: the observation’s age at that boundary. This follows the timestamp-based notion of information freshness [@yates2021aoi]. 
+
+Both quantities require comparable timestamps, with capture times mapped into the replay clock.
+
+Motivated by SLO-aware serving metrics [@zhong2024distserve], we define a project-specific service-valid ready-output rate.
+
+For a fixed delivery window $[t_0,t_1)$ of duration $T$ seconds, let $N_{\text{valid}}$ count unique outputs that become ready within the window and satisfy the declared correctness, deadline or expiry, and freshness requirements.
+
+For each service separately:
+$$
+\text{Service-valid ready outputs per minute}
+= \frac{60N_{\text{valid}}}{T}.
+$$
+
+Each original frame/request ID contributes at most once to $N_{\text{valid}}$. Outputs becoming ready during the post-window drain remain in the cohort outcome records but do not contribute to this rate. The denominator $T$ remains the measurement-window duration, excluding the drain period.
+
+We apply the same definitions and delivery windows across applicable arms. All offered items remain in the separate outcome accounting.
+
+Ready age is not continuous consumer Age of Information. Consumer-ready output does not imply actual consumption, and metrics at the consumer-use boundary require separately observed use events.
+
+## Correctness, timeliness, and freshness
+
+| Attribute | Question |
+|---|---|
+| Correctness | Does the output meet an independently checked task rubric? |
+| Timeliness | Is the declared boundary reached by the item's deadline? |
+| Freshness | Is the underlying observation recent enough at the declared boundary? |
+
+## Slow-service outcomes
+
+For the VLM, we account for every externally offered request, including rejected, failed, expired, and unfinished requests.
+
+We record actual input and output work, completion outcomes, answer correctness, and freshness at the declared boundary. Service-valid output is reported separately from raw throughput.
+
+## Fair comparisons
+
+We use the same per-service input, arrival, and output contract across applicable arms. We preserve the same effective slow allocation in B, A-resident, and C0, with measured headroom for the fast service.
+
+We declare warmup conditions, and use interleaved arms plus repeated-arm drift checks [@hoefler2015scientific]. Record power/thermal conditions, host load, display use, and unavailable telemetry. We compare the conditions without assuming a speciffic interference mechanism.
+
+We measure instrumentation overhead before performance claims from the subsequent confirmatory evaluation.
+
+
+

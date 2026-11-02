@@ -1,0 +1,28 @@
+# Overview {.unnumbered}
+
+**Two Clocks** studies how latency-critical perception and vision-language model serving share a GPU, with a focus on deadlines, freshness, and useful throughput.
+
+The initial question is small and concrete: can two checked workloads coexist, and does active sharing change the fast service beyond the cost of keeping both deployments resident?
+
+::: {.callout-note title="Current evidence · 1 November 2026"}
+The project is at launch validation.
+The experiment chapter is planned.
+:::
+
+## Read the experiment
+
+- [Can Two Inference Workloads Share One GPU?](experiments/r0a-pilot.qmd) explains the question, four comparison arms, proposed predictions, and the next decision.
+- [Measurement Methodology](methods/measurement-methodology.qmd) defines the proposed measurement boundaries and accounting rules. Implementation and validation status remain explicit.
+
+The first study concerns one GPU and replayed visual inputs. It can support a bounded inference-systems observation.
+
+## How this book relates to the repository
+
+| Record | Responsibility |
+|---|---|
+| Experiment chapter | Question, predictions, design, amendments, observations, interpretation, and decision |
+| Measurement chapter | Shared definitions and their implementation/validation status |
+| Configurations, source, manifests, and raw records | The primary evidence behind each reported result |
+| Diagrams | Design sketches |
+
+Every future result will identify its run and configuration, show both services, retain unsuccessful work, and state its evidence limits.
