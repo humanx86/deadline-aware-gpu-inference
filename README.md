@@ -11,8 +11,8 @@ Early development: launch validation toward the first development pilot.
 The **Two Clocks research book** documents the experimental design, measurement methodology, and diagrams. Results and interpretation will be added with references to the underlying runs.
 
 - [Book overview](wiki-research-book/index.qmd)
-- [First shared-GPU pilot](wiki-research-book/experiments/r0a-pilot.qmd)
-- [Measurement methodology](wiki-research-book/methods/measurement-methodology.qmd)
+- [First shared-GPU pilot](wiki-research-book/experiments/shared-gpu-feasibility.qmd)
+- [Measurement methodology](wiki-research-book/methods/measurement-contract.qmd)
 
 These links open the book’s source files in this repository.
 

@@ -11,8 +11,8 @@ book:
   description: "Research on interference between latency-critical perception and vision-language model serving: deadlines, freshness, and useful throughput."
   chapters:
     - index.qmd
-    - experiments/r0a-pilot.qmd
-    - methods/measurement-methodology.qmd
+    - experiments/shared-gpu-feasibility.qmd
+    - methods/measurement-contract.qmd
     - references.qmd
   search: true
   page-navigation: true

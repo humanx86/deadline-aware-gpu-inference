@@ -11,8 +11,8 @@ The experiment chapter is planned.
 
 ## Read the experiment
 
-- [Can Two Inference Workloads Share One GPU?](experiments/r0a-pilot.qmd) explains the question, four comparison arms, proposed predictions, and the next decision.
-- [Measurement Methodology](methods/measurement-methodology.qmd) defines the proposed measurement boundaries and accounting rules. Implementation and validation status remain explicit.
+- [Can Two Inference Workloads Share One GPU?](experiments/shared-gpu-feasibility.qmd) explains the question, four comparison arms, proposed predictions, and the next decision.
+- [Measurement Methodology](methods/measurement-contract.qmd) defines the proposed measurement boundaries and accounting rules. Implementation and validation status remain explicit.
 
 The first study concerns one GPU and replayed visual inputs. It can support a bounded inference-systems observation.
 

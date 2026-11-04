@@ -49,7 +49,7 @@ Keeping a model loaded consumes GPU memory and may introduce background runtime 
 
 ## Methodology
 
-The [measurement methodology](../methods/measurement-methodology.qmd) owns shared definitions. This chapter owns the choices for this experiment.
+The [measurement methodology](../methods/measurement-contract.qmd) owns shared definitions. This chapter owns the choices for this experiment.
 
 ### Choices to establish before execution
 

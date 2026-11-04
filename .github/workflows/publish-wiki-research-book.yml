@@ -40,8 +40,8 @@ jobs:
         shell: bash
         run: |
           test -s wiki-research-book/_book/index.html
-          test -s wiki-research-book/_book/experiments/r0a-pilot.html
-          test -s wiki-research-book/_book/methods/measurement-methodology.html
+          test -s wiki-research-book/_book/experiments/shared-gpu-feasibility.html
+          test -s wiki-research-book/_book/methods/measurement-contract.html
           test -s wiki-research-book/_book/diagrams/pilot-arms.svg
           test -s wiki-research-book/_book/diagrams/pilot-arms.excalidraw
 
