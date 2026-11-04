@@ -1,0 +1,8 @@
+{
+  "image": "chelsea.png",
+  "image_sha256": "596aa1e7cb875eb79f437e310381d26b338a81c2da23439704a73c4651e8c4bb",
+  "class": "cat",
+  "box_xyxy": [0, 0, 410, 300],
+  "score_min": 0.5,
+  "iou_min": 0.5
+}
