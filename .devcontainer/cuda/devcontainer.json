@@ -32,7 +32,7 @@
     "source=${localWorkspaceFolderBasename}-cuda-cache,target=/root/.cache,type=volume"
   ],
 
-  "postCreateCommand": "python -m pip install -r requirements-dev.txt && python -m pip check",
+  "postCreateCommand": "bash scripts/setup_python_envs.sh",
 
   "customizations": {
     "vscode": {

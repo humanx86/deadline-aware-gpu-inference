@@ -1,0 +1,5 @@
+{
+  "image": "../fast-vision/chelsea.png",
+  "image_sha256": "596aa1e7cb875eb79f437e310381d26b338a81c2da23439704a73c4651e8c4bb",
+  "expected_label": "cat"
+}
